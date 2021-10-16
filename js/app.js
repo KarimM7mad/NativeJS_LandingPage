@@ -8,8 +8,6 @@ In posuere magna in sapien sagittis, nec efficitur neque fringilla. Ut id velit 
 const numberOfSections = 4;
 
 const highlightSection = function (ev) {
-    console.log(ev);
-
     const sections = document.querySelectorAll("section , .active");
     // debugger;;
     if (sections !== null && sections.length > 0) {
@@ -18,6 +16,17 @@ const highlightSection = function (ev) {
     }
     ev.target.parentElement.classList.toggle("active");
 };
+
+const navBarBtns_scrollToDesiredLocation = function (ev) {
+    console.log(ev);
+
+    const sectionsDiv = document.getElementById("sectionDiv");
+    const highlightedSection = document.getElementById(ev.target.textContent);
+    highlightedSection.scrollTo({
+        behavior: "smooth",
+        top: highlightedSection.offsetTop
+    });
+}
 
 
 let docFrag = document.createDocumentFragment();
@@ -47,3 +56,9 @@ for (let i = 0; i < numberOfSections; i++) {
 }
 document.getElementById("sectionDiv").appendChild(docFrag);
 
+
+const navBarBtns = document.querySelectorAll(".navbar-brand");
+
+for (navBarBtn of navBarBtns) {
+    navBarBtn.addEventListener("click", navBarBtns_scrollToDesiredLocation);
+}
