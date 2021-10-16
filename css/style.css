@@ -5,7 +5,7 @@
 section.active {
     background-color: black;
     color: white;
-    font-size: 1.5em;
+    /* font-size: 1.5em; */
 }
 
 section{
@@ -16,3 +16,8 @@ pre {
     white-space: pre-wrap;
 }
 
+/* #navBarr a{
+    color: black;
+    background-color: white;
+    
+} */

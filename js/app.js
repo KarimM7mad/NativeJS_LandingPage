@@ -7,58 +7,77 @@ In posuere magna in sapien sagittis, nec efficitur neque fringilla. Ut id velit 
 
 const numberOfSections = 4;
 
-const highlightSection = function (ev) {
-    const sections = document.querySelectorAll("section , .active");
-    // debugger;;
-    if (sections !== null && sections.length > 0) {
-        for (let section of sections)
-            section.classList.remove("active");
+const makeAHighlight = function (element) {
+    let activeElement = null;
+    if (element.nodeName.toLowerCase() === "a") {
+        activeElement = document.querySelector("nav").querySelector("a.active");
+    } else if (element.nodeName.toLowerCase() === "section") {
+        activeElement = document.querySelector("section.active");
     }
-    ev.target.parentElement.classList.toggle("active");
+    // clear any activity on section
+    if (activeElement != null) {
+        activeElement.classList.remove("active");
+    }
+    // activate the element to be activated
+    element.classList.add("active");
 };
 
-const navBarBtns_scrollToDesiredLocation = function (ev) {
-    console.log(ev);
+// event handlers
+const onSectionClickHandler = function (ev) {
+    makeAHighlight(document.getElementById(ev.target.parentElement.id + "_"));
+    makeAHighlight(ev.target.parentElement);
+};
 
-    const sectionsDiv = document.getElementById("sectionDiv");
-    const highlightedSection = document.getElementById(ev.target.textContent);
-    highlightedSection.scrollTo({
+const onNavBarBtnClickHandler = function (ev) {
+    const elSection = document.getElementById(ev.target.textContent);
+    elSection.scrollIntoView({
         behavior: "smooth",
-        top: highlightedSection.offsetTop
+        block: "center",
+        inline: "start"
     });
+    makeAHighlight(ev.target);
+    makeAHighlight(elSection);
 }
 
 
-let docFrag = document.createDocumentFragment();
+let sectionDocFrag = document.createDocumentFragment();
+let navBarDocFrag = document.createDocumentFragment();
 
 // loop to create the section and it's content
 for (let i = 0; i < numberOfSections; i++) {
     // create section element
     const sectionn = document.createElement('section');
 
-    if (i === 0) {
-        sectionn.classList.add('active');
-    }
-    sectionn.addEventListener('click', highlightSection);
+
+    sectionn.classList.add('container')
+    sectionn.addEventListener('click', onSectionClickHandler, true);
     sectionn.id = `Section ${i + 1}`;
 
 
     // create h1 element to add to 
     const head1ToAdd = document.createElement('h1');
-    head1ToAdd.textContent = `Section ${i + 1}`;
+    head1ToAdd.textContent = sectionn.id;
     sectionn.appendChild(head1ToAdd);
 
     const preToAdd = document.createElement('pre');
     preToAdd.textContent = txtForParagraph;
     sectionn.appendChild(preToAdd);
 
-    docFrag.appendChild(sectionn);
+    sectionDocFrag.appendChild(sectionn);
+
+    // create anchor element
+    const anchorr = document.createElement('a');
+    anchorr.classList.add("nav-link");
+    anchorr.textContent = sectionn.id;
+    // making anchor ids similar to sections ids in order for easier search in event handlers
+    anchorr.id = sectionn.id + "_";
+    anchorr.addEventListener("click", onNavBarBtnClickHandler);
+    navBarDocFrag.appendChild(anchorr);
+
+    if (i === 0) {
+        sectionn.classList.add('active');
+        anchorr.classList.add('active');
+    }
 }
-document.getElementById("sectionDiv").appendChild(docFrag);
-
-
-const navBarBtns = document.querySelectorAll(".navbar-brand");
-
-for (navBarBtn of navBarBtns) {
-    navBarBtn.addEventListener("click", navBarBtns_scrollToDesiredLocation);
-}
+document.getElementById("sectionDiv").appendChild(sectionDocFrag);
+document.getElementById("navBarr").appendChild(navBarDocFrag);
