@@ -5,20 +5,23 @@ Integer vel ullamcorper neque, nec vulputate est. Morbi id sem in nisl hendrerit
 Vivamus nec venenatis arcu. Praesent porta vestibulum neque vel fringilla. Vestibulum purus nisl, rhoncus eu sem id, placerat condimentum justo. Donec pulvinar metus nunc, in fringilla nibh convallis vel. Nam feugiat mauris augue, ut lacinia est tempor eu. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Maecenas at massa lorem. Nulla velit nisi, elementum sit amet facilisis et, auctor vitae tellus. Nam luctus molestie tincidunt. Morbi vel risus in eros feugiat efficitur vel quis nulla. Vivamus gravida tincidunt nulla ac mollis. Curabitur lacinia condimentum sapien aliquet pellentesque. Integer laoreet scelerisque diam, at feugiat eros viverra vel. Suspendisse ut mi ac nisi eleifend pretium in nec diam.
 In posuere magna in sapien sagittis, nec efficitur neque fringilla. Ut id velit a libero laoreet tempor. Praesent ac sem vitae orci feugiat sagittis a at mauris. In maximus semper faucibus. Quisque pharetra porta bibendum. Donec auctor volutpat nisl, at aliquam magna faucibus id. Cras in lacus nec orci auctor porta. Fusce ultrices arcu nec mi hendrerit cursus ac at orci.`;
 
+// configuration for defining number of sections to create
 const numberOfSections = 4;
 
 const makeAHighlight = function (element) {
     let activeElement = null;
+
+    // check for nodeName in order to define how to get current active element to deactivate it.
     if (element.nodeName.toLowerCase() === "a") {
         activeElement = document.querySelector("nav").querySelector("a.active");
     } else if (element.nodeName.toLowerCase() === "section") {
         activeElement = document.querySelector("section.active");
     }
-    // clear any activity on section
+    // deactivate element
     if (activeElement != null) {
         activeElement.classList.remove("active");
     }
-    // activate the element to be activated
+    // activate the desired element
     element.classList.add("active");
 };
 
@@ -45,16 +48,14 @@ let navBarDocFrag = document.createDocumentFragment();
 
 // loop to create the section and it's content
 for (let i = 0; i < numberOfSections; i++) {
+
     // create section element
     const sectionn = document.createElement('section');
-
-
     sectionn.classList.add('container')
     sectionn.addEventListener('click', onSectionClickHandler, true);
     sectionn.id = `Section ${i + 1}`;
 
-
-    // create h1 element to add to 
+    // create h1 element to add to section
     const head1ToAdd = document.createElement('h1');
     head1ToAdd.textContent = sectionn.id;
     sectionn.appendChild(head1ToAdd);
@@ -63,6 +64,7 @@ for (let i = 0; i < numberOfSections; i++) {
     preToAdd.textContent = txtForParagraph;
     sectionn.appendChild(preToAdd);
 
+    //adding section to the sectionFrag
     sectionDocFrag.appendChild(sectionn);
 
     // create anchor element
@@ -74,10 +76,13 @@ for (let i = 0; i < numberOfSections; i++) {
     anchorr.addEventListener("click", onNavBarBtnClickHandler);
     navBarDocFrag.appendChild(anchorr);
 
+    // set element 1 to be the default active element
     if (i === 0) {
         sectionn.classList.add('active');
         anchorr.classList.add('active');
     }
 }
+
+// add the frag pieces to the DOM in order to appear on page
 document.getElementById("sectionDiv").appendChild(sectionDocFrag);
 document.getElementById("navBarr").appendChild(navBarDocFrag);
