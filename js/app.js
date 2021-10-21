@@ -14,27 +14,29 @@ In posuere magna in sapien sagittis, nec efficitur neque fringilla. Ut id velit 
 // configuration for defining number of sections to create
 const numberOfSections = 5;
 
-alert("You can modify the number of sections on the upcoming screen\nby changing the value in the Variable \"numberOfSections\"\nwhich is currently=" + numberOfSections + ".");
+// alert("You can modify the number of sections on the upcoming screen\nby changing the value in the Variable \"numberOfSections\"\nwhich is currently=" + numberOfSections + ".");
 
 /**
     @desciption add active class to navbar button or section and remove from the previously active one.
     @param {HTMLElement} element - element to set active.
 */
 function makeAHighlight(element) {
-    let activeElement = null;
+    if (element != null) {
+        let activeElement = null;
 
-    // check for nodeName in order to define how to get current active element to deactivate it.
-    if (element.nodeName.toLowerCase() === "a") {
-        activeElement = document.querySelector("nav").querySelector("a.active");
-    } else if (element.nodeName.toLowerCase() === "section") {
-        activeElement = document.querySelector("section.active");
+        // check for nodeName in order to define how to get current active element to deactivate it.
+        if (element.nodeName.toLowerCase() === "a") {
+            activeElement = document.querySelector("nav").querySelector("a.active");
+        } else if (element.nodeName.toLowerCase() === "section") {
+            activeElement = document.querySelector("section.active");
+        }
+        // deactivate element
+        if (activeElement != null) {
+            activeElement.classList.remove("active");
+        }
+        // activate the desired element
+        element.classList.add("active");
     }
-    // deactivate element
-    if (activeElement != null) {
-        activeElement.classList.remove("active");
-    }
-    // activate the desired element
-    element.classList.add("active");
 }
 
 /**

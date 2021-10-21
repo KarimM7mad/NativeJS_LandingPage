@@ -1,0 +1,1 @@
+This project is JS Demo for building a multi-section Landing page that utilizes JS tools and APIs for handling changes on the page based on the JS behavior defined.
