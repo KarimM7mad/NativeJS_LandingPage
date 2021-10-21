@@ -71,7 +71,7 @@ function onNavBarBtnClickHandler(ev) {
     @desciption handle the scroll event of the viewport by defining the current section and highlighting it.
     @param {EventTarget} ev - event object to get target from.
 */
-window.visualViewport.addEventListener("scroll", function (ev) {
+window.addEventListener("scroll", function (ev) {
 
     // since all section have the same size , then get one of them
     const section1Element = document.getElementById("Section 1");
@@ -80,7 +80,7 @@ window.visualViewport.addEventListener("scroll", function (ev) {
 
     // this calculation is used to define the current section visible in the visual viewport and highlight if more than 25% of the top is present.
     // this calculation helps in getting section number without looping through "#SectionDiv" children.
-    let numerator = (ev.target.pageTop + navBarr.offsetHeight) - (section1Element.offsetTop + 0.25 * section1Element.offsetHeight);
+    let numerator = (window.visualViewport.pageTop + navBarr.offsetHeight) - (section1Element.offsetTop + 0.25 * section1Element.offsetHeight);
     let denominator = section1Element.offsetHeight + (section1Element.offsetTop - navBarr.offsetHeight);
     let n = Math.ceil(numerator / denominator) + 1;
 
@@ -96,7 +96,7 @@ window.visualViewport.addEventListener("scroll", function (ev) {
 /**
     @desciption to maintain the margin from the navBar whatever it's height.
 */
-window.visualViewport.addEventListener("resize", (ev) => {
+window.addEventListener("resize", (ev) => {
     const elSection = document.querySelector("section.active");
     window.scrollTo({
         top: elSection.offsetTop - document.getElementById("navBarr").offsetHeight - 20,
@@ -115,6 +115,7 @@ for (let i = 0; i < numberOfSections; i++) {
     // create section element
     const sectionn = document.createElement('section');
     sectionn.classList.add('container');
+    sectionn.classList.add('position-relative');
     sectionn.addEventListener('click', onSectionClickHandler, true);
     sectionn.id = `Section ${i + 1}`;
 
